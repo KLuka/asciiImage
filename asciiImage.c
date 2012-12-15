@@ -2,16 +2,17 @@
 /*************************************************************************/
 /*                                                                       */
 /*  AUTHOR:                                                              */
-/*		Luka Krajger                                                     */
+/*      Luka Krajger                                                     */
 /*                                                                       */
 /*  NAME:                                                                */
-/*		asciiImage                                                       */
+/*      asciiImage                                                       */
 /*                                                                       */
 /*  DESCRIPTION:                                                         */
-/*		This program prints 24-bit .bmp image in ascii character format  */
+/*      This program prints 24-bit .bmp image in ascii character format  */
 /*                                                                       */
 /*  COMPILATION:                                                         */
-/*		/$ gcc -Wall -o asciiImage asciiImage.c -O2 -lm                  */
+/*      /$ gcc -Wall -o asciiImage asciiImage.c -O2 -lm                  */
+/*      ( on Windows WINDOWS constant must be defined )                  */
 /*                                                                       */
 /*************************************************************************/
 

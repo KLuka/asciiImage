@@ -299,11 +299,9 @@ void initUserInput( userInput_s *userInput )
 /********************************************************************************
 *     FUNCTION: printAsciiImage
 *        INPUT: **grayImageMap - gray scale image map
-*				userInput      - user input data strucure
-*				imageData      - image data structure
-*				outputPath       - if NULL, print goes to standard output else it 
-*                                goes to the file
-*       OUTPUT:	0
+*               userInput      - user input data strucure
+*               imageData      - image data structure
+*       OUTPUT:	ERROR or OK
 *  DESCRIPTION: This function prints ascii image to provided output
 ********************************************************************************/
 
@@ -316,8 +314,8 @@ int printAsciiImage( unsigned char **grayImageMap, userInput_s *userInput, image
 	int symTemp;
 	int symIndex;
 	int symAverage;
-	int symbolWidth;			/* How many pixels is in one printed symbol */
-	int symbolHeight;
+	int symbolWidth;			/* How many pixels from one line is in one printed symbol */
+	int symbolHeight;			/* How many pixels from one column is in one printed symbol */
 
 	char outFilePath[IMAGE_NAME_LEN];
 	char *bufferedLine;

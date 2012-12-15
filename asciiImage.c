@@ -205,7 +205,7 @@ int main(int argc, char *argv[])
 					userArgs.sizeMode = 6;							/* Using default value */
 				}
 			} else {
-				printf(" Warrning: -b option must be set to 1, 2, 3 or 4!\n");
+				printf(" Warrning: -s option must be set [ 1 - 10 ]!\n");
 			}
 			continue;
 		}

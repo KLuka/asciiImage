@@ -8,10 +8,8 @@ Usage: asciiImage FILE [OPTION]
  
 Options:
 
- -b, -bitGraphic    ... bit color option: 1 bit .. 4 bit
- -h, --help         ... this menu
- --html             ... print image to .html file
- --info             ... print image info
- -i, --invert       ... invert ascii colors
- -s, --size         ... size option [1-10]
+--html          ... output to html file
+--bitGraphis    ... selection of output bit depth
+--size          ... size of outputed image
+--invert        ... inverted colors
 

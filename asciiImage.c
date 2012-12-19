@@ -2,16 +2,17 @@
 /*************************************************************************/
 /*                                                                       */
 /*  AUTHOR:                                                              */
-/*		Luka Krajger                                                     */
+/*      Luka Krajger                                                     */
 /*                                                                       */
 /*  NAME:                                                                */
-/*		asciiImage                                                       */
+/*      asciiImage                                                       */
 /*                                                                       */
 /*  DESCRIPTION:                                                         */
-/*		This program prints 24-bit .bmp image in ascii character format  */
+/*      This program prints 24-bit .bmp image in ascii character format  */
 /*                                                                       */
 /*  COMPILATION:                                                         */
-/*		/$ gcc -Wall -o asciiImage asciiImage.c -O2 -lm                  */
+/*      /$ gcc -Wall -o asciiImage asciiImage.c -O2 -lm                  */
+/*      ( on Windows WINDOWS constant must be defined )                  */
 /*                                                                       */
 /*************************************************************************/
 
@@ -35,17 +36,17 @@
 #define OK		1
 #define ERROR (-1)
 
-#define IMAGE_NAME_LEN      127
+#define IMAGE_NAME_LEN		127
 
 /* For reading binary files */
 #ifdef WINDOWS
-	#define READ_BINARY_FILE 	"rb"
+	#define READ_BINARY_FILE	"rb"
 #else
-	#define READ_BINARY_FILE    "r"
+	#define READ_BINARY_FILE	"r"
 #endif
 
 /* Bmp file related */
-#define BMP_HEADER_SIZE 	54 	
+#define BMP_HEADER_SIZE		54 	
 
 #define BMP_H_FILE_SIZE		0x02
 #define BMP_H_OFFSET		0x0A
@@ -54,10 +55,10 @@
 #define BMP_H_RAW_SIZE		0x22
 
 /* Html file related */
-#define HTML_F_FAMILY	 "font-family: Courier, 'Courier New', monospace;"
-#define HTML_F_SIZE  	 "font-size: xx-small;"
-#define HTML_F_WEIGHT    "font-weight: bold;"
-#define HTML_W_SPACE	 "white-space: pre;"
+#define HTML_F_FAMILY		"font-family: Courier, 'Courier New', monospace;"
+#define HTML_F_SIZE			"font-size: xx-small;"
+#define HTML_F_WEIGHT		"font-weight: bold;"
+#define HTML_W_SPACE		"white-space: pre;"
 
 /*************************************************************************/
 /*                             GLOBALS                                   */                
@@ -113,8 +114,8 @@ void printImageInfo( imageData_s *imageData );
 
 /* Other function prototypes */
 
-unsigned char ** createGrayPixMap( int heightInPix , int widthInPix );
-void destroyGrayPixMap( unsigned char **grayPixelMap, int heightInPix );
+unsigned char ** createPixelMap( int heightInPix , int widthInPix );
+void destroyPixelMap( unsigned char **grayPixelMap, int heightInPix );
 
 void htmlFilePrintFooter( FILE *htmlFilePtr );
 void htmlFilePrintHeader( FILE *htmlFilePtr );
@@ -144,7 +145,7 @@ int main(int argc, char *argv[])
 	char *imagePath = "null";
 	unsigned char **grayPixelMap;
 
-	
+
 	imageData_s imageData;
 	userInput_s userArgs;
 	
@@ -207,7 +208,7 @@ int main(int argc, char *argv[])
 					userArgs.sizeMode = 6;							/* Using default value */
 				}
 			} else {
-				printf(" Warrning: -b option must be set to 1, 2, 3 or 4!\n");
+				printf(" Warrning: -s option must be set [ 1 - 10 ]!\n");
 			}
 			continue;
 		}
@@ -244,9 +245,9 @@ int main(int argc, char *argv[])
 	/*************************************************************************/
 	/*                       Make gray scale pixel map                       */                
 	/*************************************************************************/
-	
+
 	/* Allocate memory for gray pixel map */
-	grayPixelMap = createGrayPixMap( imageData.imgHeight , imageData.imgWidth );
+	grayPixelMap = createPixelMap( imageData.imgHeight , imageData.imgWidth );
 	if( grayPixelMap == NULL ) {
 		return 0;
 	}
@@ -261,12 +262,12 @@ int main(int argc, char *argv[])
 	/*************************************************************************/
 	/*                         Main                                          */                
 	/*************************************************************************/
-	
+
 	/* Print image to output */
 	printAsciiImage ( grayPixelMap , &userArgs , &imageData );
 
 	/* Free memory of gray pixel map */
-	destroyGrayPixMap( grayPixelMap , imageData.imgHeight );
+	destroyPixelMap( grayPixelMap , imageData.imgHeight );
 
 	return 0;
 }
@@ -289,6 +290,7 @@ void initUserInput( userInput_s *userInput )
 	return;
 }
 
+
 /********************************************************************************
 *     FUNCTION: createGrayPixMap
 *        INPUT: heightInPix - map height
@@ -297,13 +299,13 @@ void initUserInput( userInput_s *userInput )
 *  DESCRIPTION: This function allocates memory on heap for gray scale pixel map
 ********************************************************************************/
 
-unsigned char ** createGrayPixMap( int heightInPix , int widthInPix )
+unsigned char ** createPixelMap( int heightInPix , int widthInPix )
 {
 	int i;
 	unsigned char **pixelMap;
 	
 	/* Allocate memory for pixelMap - pointers to lines  */
-    pixelMap = malloc( heightInPix  * sizeof( unsigned char *));
+	pixelMap = malloc( heightInPix  * sizeof( unsigned char *));
 	if( pixelMap == NULL) {
 		printf("Cannot allocate memory for gray pixel map!\n");
 		return NULL;
@@ -329,7 +331,7 @@ unsigned char ** createGrayPixMap( int heightInPix , int widthInPix )
 *  DESCRIPTION: This function frees memory on heap for gray scale pixel map
 ********************************************************************************/
 
-void destroyGrayPixMap( unsigned char **grayPixelMap, int heightInPix )
+void destroyPixelMap( unsigned char **grayPixelMap, int heightInPix )
 {
 	int i;
 	
@@ -347,11 +349,9 @@ void destroyGrayPixMap( unsigned char **grayPixelMap, int heightInPix )
 /********************************************************************************
 *     FUNCTION: printAsciiImage
 *        INPUT: **grayImageMap - gray scale image map
-*				userInput      - user input data strucure
-*				imageData      - image data structure
-*				outputPath       - if NULL, print goes to standard output else it 
-*                                goes to the file
-*       OUTPUT:	0
+*               userInput      - user input data strucure
+*               imageData      - image data structure
+*       OUTPUT:	ERROR or OK
 *  DESCRIPTION: This function prints ascii image to provided output
 ********************************************************************************/
 
@@ -364,8 +364,8 @@ int printAsciiImage( unsigned char **grayImageMap, userInput_s *userInput, image
 	int symTemp;
 	int symIndex;
 	int symAverage;
-	int symbolWidth;			/* How many pixels is in one printed symbol */
-	int symbolHeight;
+	int symbolWidth;			/* How many pixels from one line is in one printed symbol */
+	int symbolHeight;			/* How many pixels from one column is in one printed symbol */
 
 	char outFilePath[IMAGE_NAME_LEN];
 	char *bufferedLine;
@@ -514,10 +514,10 @@ unsigned char getAsciiSymbol( unsigned char grayValue , int bitGraphic  , int in
 
 	char retSymbol;
 
-	char tabel_1[] = "# ";                  	/* 1 bit graphic */
-	char tabel_2[] = "#6+ "; 					/* 2 bit graphic */	
-	char tabel_3[] = "#&$21:- ";				/* 3 bit graphic */
-	char tabel_4[] = "##&8$62I1|:+-.  ";	    /* 4 bit graphic */
+	char tabel_1[] = "# ";					/* 1 bit graphic */
+	char tabel_2[] = "#6+ ";				/* 2 bit graphic */	
+	char tabel_3[] = "#&$21:- ";			/* 3 bit graphic */
+	char tabel_4[] = "##&8$62I1|:+-.  ";	/* 4 bit graphic */
 
 	/* Inverted mode */
 	if( invertMode == 1 ) {
@@ -614,11 +614,13 @@ int makeGrayPixelMap( unsigned char **grayImageMap , imageData_s *imageData )
 			fclose(filePtr);
 			return ERROR;
 		}
-		
+	
+
 		/* Convert line of RGB pixels to line of gray pixels */
 		for( j=0 , pixel=0 ; j < usefullBytesInLine  ; j=j+3 , pixel++ ) {
 			/* Store gray pixel */	
 			grayImageMap[line][pixel] = pixelToGray( lineBuffer[j], lineBuffer[j+1], lineBuffer[j+2]);
+				
 		}
 	}
 

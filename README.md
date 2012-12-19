@@ -8,8 +8,8 @@ Usage: asciiImage FILE [OPTION]
  
 Options:
 
-* -- html          ... output to html file
-* -- bitGraphis    ... selection of output bit depth
-* -- size          ... size of outputed image
-* -- invert        ... inverted colors
+* --html          ... output to html file
+* --bitGraphis    ... selection of output bit depth
+* --size          ... size of outputed image
+* --invert        ... inverted colors
 

@@ -104,8 +104,8 @@ int bmpGetWidthInBytes( int pixelWidth );
 int storeBmpImageData( char *imagePath , imageData_s *imageData );
 
 /* Image processing functions */
-unsigned char getAsciiSymbol( unsigned char grayValue , int bitGraphic  , int invertMode );
-unsigned char pixelToGray( unsigned char redPix , unsigned char greenPix , unsigned char bluePix );
+inline unsigned char getAsciiSymbol( unsigned char grayValue , int bitGraphic  , int invertMode );
+inline unsigned char pixelToGray( unsigned char redPix , unsigned char greenPix , unsigned char bluePix );
 
 int makeGrayPixelMap( unsigned char **grayImageMap , imageData_s *imageData );
 int printAsciiImage( unsigned char **grayImageMap, userInput_s *userInput, imageData_s *imageData );
@@ -509,7 +509,7 @@ void htmlFilePrintFooter( FILE *htmlFilePtr )
  *  Description: This function returns ascii symbol 
  ********************************************************************************/
 
-unsigned char getAsciiSymbol( unsigned char grayValue , int bitGraphic  , int invertMode )
+inline unsigned char getAsciiSymbol( unsigned char grayValue , int bitGraphic  , int invertMode )
 {
 
 	char retSymbol;
@@ -641,14 +641,10 @@ int makeGrayPixelMap( unsigned char **grayImageMap , imageData_s *imageData )
 *  DESCRIPTION: This function return gray-scale pixel
 ********************************************************************************/
 
-unsigned char pixelToGray( unsigned char redPix , unsigned char greenPix , unsigned char bluePix )
+inline unsigned char pixelToGray( unsigned char redPix , unsigned char greenPix , unsigned char bluePix )
 {
-
-	unsigned char grayPixel ;
-
-	grayPixel = (int) (redPix + greenPix + bluePix ) / 3;
-
-	return grayPixel;
+	unsigned char retVal = (int) (redPix + greenPix + bluePix ) / 3;
+	return retVal;
 
 }
 
